@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
+/// <reference path="node_modules/devextreme/dist/ts/dx.all.d.ts" />
 (function () { return __awaiter(_this, void 0, void 0, function () {
     function getISS(apiUrl) {
         return __awaiter(this, void 0, void 0, function () {
@@ -52,6 +53,13 @@ var _this = this;
             });
         });
     }
+    // const issIcon = L.marker(
+    //   [data.iss_position.latitude, data.iss_position.longitude],
+    //   { icon: myIcon }
+    // )
+    //   .addTo(map)
+    //   .bindPopup("I'm here .., !")
+    //   .openPopup();
     function updatePosition() {
         return __awaiter(this, void 0, void 0, function () {
             var data, date1;
@@ -66,17 +74,20 @@ var _this = this;
                         longitude.textContent = data.iss_position.longitude.toLocaleString();
                         date1 = new Date(data.timestamp * 1000);
                         date.textContent = date1.toLocaleString();
-                        // iss.setLatLng([data.iss_position.latitude, data.iss_position.longitude]);
-                        // const issIcon = L.imageOverlay("icons/issIcon.svg",[ [0,0] ,
-                        // [0,0] ]).addTo(map);
-                        iss.setLatLng([data.iss_position.latitude, data.iss_position.longitude]);
-                        issIcon.setLatLng([data.iss_position.latitude, data.iss_position.longitude]);
                         return [2 /*return*/];
                 }
             });
         });
     }
-    var date, latitude, longitude, map, apiUrl, update_btn, data, iss, myIcon, issIcon, timer;
+    function setIntervalToggle() {
+        if (!timeintervalcheckbox.checked) {
+            clearInterval(timer);
+        }
+        else {
+            timer = setInterval(function () { return updatePosition(); }, 2000);
+        }
+    }
+    var date, latitude, longitude, apiUrl, update_btn, data, myIcon, timer, timeintervalcheckbox;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -84,31 +95,73 @@ var _this = this;
                 date = document.querySelector("#date");
                 latitude = document.querySelector("#latitude");
                 longitude = document.querySelector("#longitude");
-                map = L.map("map").setView([0, 0], 1);
-                L.tileLayer("https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0mdRbwqEV8ut5icPHfVq", {
-                    attribution: '<a href="https://www.maptiler.com/copyright/", target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-                }).addTo(map);
                 apiUrl = "http://api.open-notify.org/iss-now.json";
                 update_btn = document.getElementById("update-btn");
                 return [4 /*yield*/, getISS(apiUrl)];
             case 1:
                 data = _a.sent();
-                iss = L.circle([data.iss_position.latitude, data.iss_position.longitude], {
-                    radius: 80000,
-                    color: "red"
-                }).addTo(map);
                 myIcon = L.icon({
                     iconUrl: "icons/issIcon.svg",
                     iconSize: [96, 96],
                     iconAnchor: [48, 48]
                 });
-                issIcon = L.marker([data.iss_position.latitude, data.iss_position.longitude], { icon: myIcon })
-                    .addTo(map)
-                    .bindPopup("I'm here .., !")
-                    .openPopup();
                 update_btn.addEventListener("click", updatePosition);
-                timer = setInterval(function () { return updatePosition(); }, 10000);
+                timer = setInterval(function () { return updatePosition(); }, 2000);
+                timeintervalcheckbox = document.getElementById("timeintervalcheckbox");
+                timeintervalcheckbox.addEventListener("click", setIntervalToggle);
+                // JQuery 
+                $(function () {
+                    // update button
+                    $(update_btn).dxButton({
+                        stylingMode: 'contained',
+                        text: 'Update',
+                        type: "default",
+                        width: 120,
+                        onClick: function () {
+                            DevExpress.ui.notify('The Contained button was clicked');
+                        }
+                    });
+                    // timeintervall checkbox 
+                    $(timeintervalcheckbox).dxCheckBox({
+                        value: true
+                    });
+                    // map
+                    var mapTypes = [{
+                            key: 'roadmap',
+                            name: 'Road Map'
+                        }, {
+                            key: 'satellite',
+                            name: 'Satellite (Photographic) Map'
+                        }, {
+                            key: 'hybrid',
+                            name: 'Hybrid Map'
+                        }];
+                    var map = $("#map").dxMap({
+                        center: [data.iss_position.latitude, data.iss_position.longitude],
+                        zoom: 1,
+                        height: 400,
+                        width: '100%',
+                        provider: 'bing',
+                        apiKey: {
+                        // Specify your API keys for each map provider:
+                        // bing: "YOUR_BING_MAPS_API_KEY",
+                        // google: "YOUR_GOOGLE_MAPS_API_KEY",
+                        // googleStatic: "YOUR_GOOGLE_STATIC_MAPS_API_KEY"
+                        }
+                    }).dxMap('instance');
+                    $('#choose-type').dxSelectBox({
+                        dataSource: mapTypes,
+                        displayExpr: 'name',
+                        valueExpr: 'key',
+                        value: mapTypes[0].key,
+                        onValueChanged: function (data) {
+                            map.option('type', data.value);
+                        }
+                    });
+                });
                 return [2 /*return*/];
         }
     });
 }); })();
+// Element function htmlinputelement(){
+// }
