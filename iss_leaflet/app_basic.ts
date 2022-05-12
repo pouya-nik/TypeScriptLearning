@@ -1,3 +1,4 @@
+// in this TypeScrips file only basic TypeScript was written without any freamwork like devexterne or JQuery
 interface IssData {
   timestamp: number;
   iss_position: {
@@ -39,7 +40,7 @@ interface IssData {
   ).addTo(map);
 
   const myIcon = L.icon({
-    iconUrl: "icons/issIcon.svg",
+    iconUrl: "../icons/issIcon.svg",
     iconSize: [96, 96],
     iconAnchor: [48, 48],
   });
@@ -85,7 +86,3 @@ interface IssData {
   }
   timeintervalcheckbox.addEventListener("click", setIntervalToggle);
 })();
-
-// Element function htmlinputelement(){
-
-// }

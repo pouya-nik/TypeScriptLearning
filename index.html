@@ -4,56 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Understanding TypeScript</title>
-
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-      crossorigin=""
-    />
-
-    <script
-      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-      crossorigin=""
-    ></script>
-
-    <!-- jQuery CDN (Content Delivery Network) 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
- 
-    <!-- DevExtreme theme -->
-    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.2.7/css/dx.material.blue.light.compact.css" rel="stylesheet">
-   
-    <!-- DevExtreme library -->
-    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/21.2.7/js/dx.all.js"></script>
-
-    <script src="app.js" defer></script>
-    <script src="./exersizes/usingTypes.js"></script>
+    <title>Document</title>
   </head>
-  <style>
-    #map {
-      height: 400px;
-      width: 1080px;
-    }
-  </style>
   <body>
-    <h1>ISS Position</h1>
-    <p>Latitude: <span id="latitude"></span></p>
-    <p>Longitude: <span id="longitude"></span></p>
-    <p>Date: <span id="date"></span></p>
+    <h1>Type Script Learning</h1>
     <div>
-      <div id="update-btn"></div>
-      <div id="timeintervalcheckbox"></div>
+      <button onclick="window.location.pathname = '/iss_devextreme/index.html'">
+        DevExtreme
+      </button>
+      <button onclick="window.location.pathname = '/iss_leaflet/index.html'">
+        Leaflet
+      </button>
+      <button onclick="window.location.pathname = '/exersizes/exersizes.html'">
+        Exersizes
+      </button>
     </div>
-    <div id="map"></div>
-
-    <!-- JQuery Test
-         <div>
-      <h1>TEST...</h1>
-      <button id="test-btn">Click me</button>
-    </div> -->
   </body>
 </html>

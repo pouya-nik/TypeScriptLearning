@@ -1,3 +1,4 @@
+<!-- in this html file only basic html element was written without any freamwork like devexterne -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,7 +20,7 @@
       crossorigin=""
     ></script>
 
-    <script src="app.js" defer></script>
+    <script src="app_basic.js" defer></script>
     <script src="./exersizes/usingTypes.js"></script>
   </head>
   <style>
@@ -29,15 +30,20 @@
     }
   </style>
   <body>
-    <h1>ISS Position</h1>
-    <p>Latitude: <span id="latitude"></span></p>
-    <p>Longitude: <span id="longitude"></span></p>
-    <p>Date: <span id="date"></span></p>
     <div>
-      <button id="update-btn">Update</button>
-      <input type="checkbox" id="timeintervalcheckbox" checked=true />
-      <label for="timeintervalcheck">Time Interval</label>
+      <button onclick="window.location.pathname = ''">Home</button>
     </div>
-    <div id="map"></div>
+    <div>
+      <h1>ISS Position</h1>
+      <p>Latitude: <span id="latitude"></span></p>
+      <p>Longitude: <span id="longitude"></span></p>
+      <p>Date: <span id="date"></span></p>
+      <div>
+        <button id="update-btn">Update</button>
+        <input type="checkbox" id="timeintervalcheckbox" checked="true" />
+        <label for="timeintervalcheck">Time Interval</label>
+      </div>
+      <div id="map"></div>
+    </div>
   </body>
 </html>
