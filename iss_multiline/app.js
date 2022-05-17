@@ -1,3 +1,4 @@
+/// <reference path="../node_modules/devextreme/dist/ts/dx.all.d.ts" />
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-/// <reference path="../node_modules/devextreme/dist/ts/dx.all.d.ts" />
 (function () { return __awaiter(_this, void 0, void 0, function () {
     function getISS(apiUrl) {
         return __awaiter(this, void 0, void 0, function () {
@@ -67,17 +67,6 @@ var _this = this;
                         longitude.textContent = data.iss_position.longitude.toLocaleString();
                         date1 = new Date(data.timestamp * 1000);
                         date.textContent = date1.toLocaleString();
-                        $("#map")
-                            .dxMap("instance")
-                            .addMarker({
-                            location: [data.iss_position.latitude, data.iss_position.longitude],
-                            tooltip: {
-                                text: "I'm here..."
-                            }
-                        });
-                        $("#map")
-                            .dxMap("instance")
-                            .removeMarker(0);
                         return [2 /*return*/];
                 }
             });
@@ -109,7 +98,7 @@ var _this = this;
                     {
                         location: [data.iss_position.latitude, data.iss_position.longitude],
                         tooltip: {
-                            text: "I'm here..."
+                            text: "International Space Station(ISS)"
                         }
                     },
                 ];
@@ -126,7 +115,7 @@ var _this = this;
                         type: "default",
                         width: 120,
                         onClick: function () {
-                            DevExpress.ui.notify("The Contained button was clicked");
+                            DevExpress.ui.notify("The ISS position has been updated.");
                         }
                     });
                     // timeintervall checkbox
@@ -134,7 +123,7 @@ var _this = this;
                         text: "Time Intervall",
                         value: true
                     });
-                    // exersize button
+                    // Home button
                     var home_btn = document.getElementById("home-btn");
                     $(home_btn).dxButton({
                         stylingMode: "contained",
@@ -146,45 +135,28 @@ var _this = this;
                         }
                     });
                     // map
-                    var mapTypes = [
-                        {
-                            key: "roadmap",
-                            name: "Road Map"
+                    $("#map").dxVectorMap({
+                        title: {
+                            text: "ISS Position"
                         },
-                        {
-                            key: "satellite",
-                            name: "Satellite (Photographic) Map"
-                        },
-                        {
-                            key: "hybrid",
-                            name: "Hybrid Map"
-                        },
-                    ];
-                    var map_prop = {
-                        center: [data.iss_position.latitude, data.iss_position.longitude],
-                        zoom: 1,
-                        height: 400,
-                        width: "100%",
-                        provider: "bing",
-                        // apiKey: {
-                        //   // Specify your API keys for each map provider:
-                        //   // bing: "YOUR_BING_MAPS_API_KEY",
-                        //   // google: "YOUR_GOOGLE_MAPS_API_KEY",
-                        //   // googleStatic: "YOUR_GOOGLE_STATIC_MAPS_API_KEY"
-                        // },
-                        type: mapTypes[0].key,
-                        markerIconSrc: issIconUrl,
-                        markers: markersData
-                    };
-                    var map = $("#map").dxMap(map_prop).dxMap("instance");
-                    $("#choose-type").dxSelectBox({
-                        dataSource: mapTypes,
-                        displayExpr: "name",
-                        valueExpr: "key",
-                        value: mapTypes[0].key,
-                        onValueChanged: function (data) {
-                            map.option("type", data.value);
-                        }
+                        maxZoomFactor: 300,
+                        background: { borderColor: "#ffffff", color: "#80bfff" },
+                        layers: [
+                            {
+                                dataSource: "world.json",
+                                hoverEnabled: true,
+                                color: "#ffffcc"
+                            },
+                            {
+                                name: "ISScoordinate",
+                                dataSource: "iss_coordinate.json",
+                                colorGroupingField: "tag",
+                                colorGroups: [0, 1, 2],
+                                palette: ["#3c20c8", "#d82020"],
+                                borderColor: "none",
+                                hoverEnabled: false
+                            },
+                        ]
                     });
                 });
                 return [2 /*return*/];

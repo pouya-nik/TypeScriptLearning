@@ -1,4 +1,5 @@
 /// <reference path="../node_modules/devextreme/dist/ts/dx.all.d.ts" />
+
 interface IssData {
   timestamp: number;
   iss_position: {
@@ -12,7 +13,7 @@ interface IssData {
   const date = document.querySelector("#date");
   const latitude = document.querySelector("#latitude");
   const longitude = document.querySelector("#longitude");
-  let coordinates:number[][];
+  let coordinates: number[][];
 
   let apiUrl: string = "http://api.open-notify.org/iss-now.json";
 
@@ -30,7 +31,7 @@ interface IssData {
     {
       location: [data.iss_position.latitude, data.iss_position.longitude],
       tooltip: {
-        text: "I'm here...",
+        text: "International Space Station(ISS)",
       },
     },
   ];
@@ -45,18 +46,17 @@ interface IssData {
 
     const date1 = new Date(data.timestamp * 1000);
     date.textContent = date1.toLocaleString();
-
-    $("#map")
-      .dxMap("instance")
-      .addMarker({
-        location: [data.iss_position.latitude, data.iss_position.longitude],
-        tooltip: {
-          text: "I'm here...",
-        },
-      });
-      $("#map")
-      .dxMap("instance")
-      .removeMarker(0) 
+    // $("#map")
+    //   .dxMap("instance")
+    //   .addMarker({
+    //     location: [data.iss_position.latitude, data.iss_position.longitude],
+    //     tooltip: {
+    //       text: "I'm here...",
+    //     },
+    //   });
+    //   $("#map")
+    //   .dxMap("instance")
+    //   .removeMarker(0)
   }
   update_btn.addEventListener("click", updatePosition);
   let timer = setInterval(() => updatePosition(), 2000);
@@ -80,7 +80,7 @@ interface IssData {
       type: "default",
       width: 120,
       onClick() {
-        DevExpress.ui.notify("The Contained button was clicked");
+        DevExpress.ui.notify("The ISS position has been updated.");
       },
     });
     // timeintervall checkbox
@@ -88,7 +88,7 @@ interface IssData {
       text: "Time Intervall",
       value: true,
     });
-    // exersize button
+    // Home button
     const home_btn = document.getElementById("home-btn");
     $(home_btn).dxButton({
       stylingMode: "contained",
@@ -100,46 +100,28 @@ interface IssData {
       },
     });
     // map
-    const mapTypes = [
-      {
-        key: "roadmap",
-        name: "Road Map",
+    $("#map").dxVectorMap({
+      title: {
+        text: "ISS Position",
       },
-      {
-        key: "satellite",
-        name: "Satellite (Photographic) Map",
-      },
-      {
-        key: "hybrid",
-        name: "Hybrid Map",
-      },
-    ] as const;
-    const map_prop: DevExpress.ui.dxMap.Properties = {
-      center: [data.iss_position.latitude, data.iss_position.longitude],
-      zoom: 1,
-      height: 400,
-      width: "100%",
-      provider: "bing",
-      // apiKey: {
-      //   // Specify your API keys for each map provider:
-      //   // bing: "YOUR_BING_MAPS_API_KEY",
-      //   // google: "YOUR_GOOGLE_MAPS_API_KEY",
-      //   // googleStatic: "YOUR_GOOGLE_STATIC_MAPS_API_KEY"
-      // },
-      type: mapTypes[0].key,
-      markerIconSrc: issIconUrl,
-      markers: markersData,
-    };
-    const map = $("#map").dxMap(map_prop).dxMap("instance");
-
-    $("#choose-type").dxSelectBox({
-      dataSource: mapTypes,
-      displayExpr: "name",
-      valueExpr: "key",
-      value: mapTypes[0].key,
-      onValueChanged(data) {
-        map.option("type", data.value);
-      },
+      maxZoomFactor: 300,
+      background: { borderColor: "#ffffff", color: "#80bfff" },
+      layers: [
+        {
+          dataSource: "world.json",
+          hoverEnabled: true,
+          color: "#ffffcc",
+        },
+        {
+          name: "ISScoordinate",
+          dataSource: "iss_coordinate.json",
+          colorGroupingField: "tag",
+          colorGroups: [0, 1, 2],
+          palette: ["#3c20c8", "#d82020"],
+          borderColor: "none",
+          hoverEnabled: false,
+        },
+      ],
     });
   });
 })();
